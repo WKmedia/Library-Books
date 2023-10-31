@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div id="libraryShelf"></div>
+    <form>
+        <label for="InputTitle">Book title: </label>
+            <input type="text" id="InputTitle">
+        <label for="InputAuthor">Book author: </label>
+            <input type="text" id="InputAuthor">
+        <label for="InputPages">Pages: </label>
+            <input type="text" id="InputPages">
+        <label for="InputRead">Read: </label>
+        <input type="text" id="InputRead">
+        <button type="button" onclick="libraryAddBooks()">Submit</button>
+    </form>
+<script>
+
+
+    const libraryBooks = document.getElementById('libraryShelf');
+    const inputBox = document.getElementsByTagName('input');
+    for (let i = 0; i < inputBox.length; i++){
+        const input = inputBox[i];
+        input.style.height = '50px';
+        input.textContent = '';
+        console.log(input);
+    }
+    
+
+
+    libraryBooks.style.display = 'grid';
+    // libraryBooks.style.justifyItems = 'space-around';
+    libraryBooks.style.alignItems = ''
+    // libraryBooks.style.width = '200px';
+    libraryBooks.style.fontSize = '40px';
+
+    function Books(title, author, pages, read) {
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.read = read
+        this.info = function() {
+            this.cardInfo = `Book title: ${this.title} \nAuthor: ${this.author} \n Pages: ${this.pages} Read: ${read}`
+            this.cardSummary = `The ${this.title} by ${this.author}, ${this.pages} pages, read book: ${this.read}`;
+            return `${this.cardInfo} \n ${this.cardSummary}`;
+        }
+        
+    };
+    
+    
+    const book1 = new Books('G.O.T', 'Ben Reeds', 200, 'Yes');
+    // const values = Object.values(book1);
+    // console.table(values);
+    const book2 = new Books('Harry Potter Mystery', 'Paul robstein', 500, 'Yes');
+    
+    const book3 = new Books('G.Book of Eli', 'Desi Brooks', 1000, 'not yet');
+    
+    const myLibrary = [];
+
+    for (let i = 0; i< myLibrary.length; i++) {
+        const card = myLibrary[i];
+        let cardDiv = document.createElement('div');
+        libraryBooks.append(cardDiv);
+        cardDiv.append(card);
+        console.log(card)
+    } 
+    console.table(myLibrary);
+    
+
+    function libraryAddBooks(title,author,pages,read) {
+        const userInputTitle = document.getElementById('InputTitle');
+            let inputValue = userInputTitle.value;
+        const userInputAuthor = document.getElementById('InputAuthor').value;
+        const userInputPages = document.getElementById('InputPages').value;
+        const userInputRead = document.getElementById('InputRead').value;
+            if (userInputAuthor === '' || userInputPages === '' || userInputTitle === '' || userInputRead === '') {
+                alert('Please enter book info.');
+            } else {
+              this.book = new Books(inputValue, userInputAuthor, userInputPages, userInputRead);
+                myLibrary.push(this.book);
+                let myNewLibrary = myLibrary;
+                console.table(myNewLibrary);
+                return myNewLibrary;
+            }
+            
+
+            console.log(myNewLibrary);
+    }
+
+    // const libraryCard = function () {
+    //     for (let i = 0; i < myLibrary.length; i++) {
+    //         const card = myLibrary[i];
+    //         console.log(card);
+    //         // card.style.width = '200px';
+    //         libraryBooks.append(card);
+    //     }
+    // };
+    // libraryCard();
+
+    // function addBookToLibrary() {
+    //     // for (prop in book1) {
+    //     //     console.log(prop);
+    //     //     }
+    //     // for (value in book1){
+    //     //     console.log(values);    
+    //     // }
+    //     for (let i = 0; i < myLibrary.length; i++) {
+    //         const card = myLibrary[i];
+    //         console.log(card) 
+    //         const bookCard = document.createElement('div');
+    //         bookCard.style.width = '200px';
+    //         bookCard.append(card.info());
+    //         libraryBooks.append(bookCard);
+    //     }
+    //     // libraryBooks.append(book1.info());
+    //     // libraryBooks.append(book2.info());
+    //     // libraryBooks.append(book3.info());
+    // }
+    
+    
+
+</script>     
+    <!-- <script>
+        function Person(name) { 
+            this.name = name 
+        }
+
+        Person.prototype.sayName = function() { console.log(`Hello, I'm ${this.name}!`) }
+
+        function Player(name, marker) {
+            this.name = name
+            this.marker = marker
+        }
+
+        Player.prototype.getMarker = function() {
+            console.log(`My marker is '${this.marker}'`)
+        }
+        const player1 = new Player('Steve', 'X');
+        const player2 = new Player('also Steve', 'O');
+    
+
+
+
+
+
+        function Hero(name, level) {
+            this.name = name;
+            this.level = level;
+        }
+        //Initialize Warrior construtor
+        function Warrior(name, level, weapon) {
+            Hero.call(this, name, level);
+
+            //Add new property
+            this.weapon = weapon;
+        }
+        // Initialized Healer constructor
+        function Healer(name, level, spell) {
+            Hero.call(this, name, level);
+
+            this.spell = spell;
+        }
+
+        //Link prototypes and add prototype methods
+        Object.setPrototypeOf(Warrior.prototype, Hero.prototype);
+        Object.setPrototypeOf(Healer.prototype, Hero.prototype);
+
+        Hero.prototype.greet = function () {
+            return `${this.name} says hello.`;
+        }
+
+        Warrior.prototype.attack = function () {
+            return `${this.name} attack with the ${this.weapon}.`;
+        }
+
+        Healer.prototype.heal = function () {
+            return `${this.name} cast ${this.spell}.`;
+        }
+
+        //Initialize individual character instances
+        const hero1 = new Warrior('john', 2, 'axe');
+        const hero2 = new Healer('kanan', 2, 'cure');
+
+
+        let head = {
+            glasses: 1 
+        }; 
+        let table = {
+             __proto__: head, 
+             pen: 3 
+            }; 
+        let bed = { 
+            __proto__ : table,
+             sheet: 1, 
+             pillow: 2 
+            }; 
+        let pockets = {
+            __proto__: bed,
+             money: 2000 
+            };
+        
+    </script> -->
+    
+</body>
+</html>
