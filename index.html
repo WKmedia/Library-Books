@@ -17,7 +17,7 @@
 <body>
     <div id="container">
         <h2 id="input-heading">Add a Book!</h2>
-        <h2 id="books-heading">Library of Books</h2>
+        <h2 id="books-heading">Library Books</h2>
         <form id='formStyle'>
             
             <label for="InputTitle">Book title: </label>
@@ -87,11 +87,11 @@
         this.pages = pages
         this.read = read
         this.info = function() {
-            this.cardInfo = `Book title: ${this.title} \nAuthor: ${this.author} \n Pages: ${this.pages} Read: ${read}`
-            this.cardSummary = `The ${this.title} by ${this.author}, ${this.pages} pages, read book: ${this.read}`;
-            return `${this.cardInfo} \n ${this.cardSummary}`;
-        }
-        
+                        this.cardInfo = `Book title: ${this.title} \nAuthor: ${this.author} \n Pages: ${this.pages} Read: ${read}`
+                        this.cardSummary = `The ${this.title} by ${this.author}, ${this.pages} pages, read book: ${this.read}`;
+                    
+                        return `${this.cardInfo} \n ${this.cardSummary}`;
+                    }        
     };
     
     
@@ -100,16 +100,6 @@
     // const book3 = new Books('G.Book of Eli', 'Desi Brooks', 1000, 'not yet');
     const myLibrary = [];
 
-    // const showAddedBook = function() {
-    //     for (let i = 0; i< myLibrary.length; i++) {
-    //         // const card = myLibrary[i];
-           
-    //     } 
-        
-    // console.table(myLibrary);
-    // }
-    
-    
 
     function libraryAddBooks(title,author,pages,read) {
         const userInputTitle = document.getElementById('InputTitle');
@@ -123,19 +113,33 @@
               this.book = new Books(inputValue, userInputAuthor, userInputPages, userInputRead);
                 myLibrary.push(book);
                 const card = this.book;
+                card.info();
                 let cardDiv = document.createElement('div');
-                    cardDiv.setAttribute('class', 'cardDiv');
-                    cardDiv.style.width = '200px';                
-                    libraryBooks.append(cardDiv);
-                    card.info();
-                    cardDiv.append(card.cardInfo);
                 const subtext = document.createElement('div');
+                const button = document.createElement('button');
+                
+
+                    cardDiv.setAttribute('class', 'cardDiv');
+                    cardDiv.style.width = '200px';                                      
+               
                     subtext.style.fontSize = '16px';
-                    subtext.append(card.cardSummary);
+                
+                    button.textContent = 'Delete';
+                    button.addEventListener('click', function () {
+                       if (cardDiv) {
+                        cardDiv.parentNode.removeChild(cardDiv);
+                       }
+                    })
+
+
+                    libraryBooks.append(cardDiv);
+                    cardDiv.append(card.cardInfo);
                     cardDiv.append(subtext);
+                    subtext.append(card.cardSummary);                   
+                    cardDiv.append(button);
+
                     console.log(card.cardSummary);
-                let myNewLibrary = myLibrary;
-                console.table(myLibrary);
+                    
             }        
 
             
