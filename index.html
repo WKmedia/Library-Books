@@ -9,9 +9,9 @@
             /* display: flex;
             justify-content: space-between; */
         }
-        *{
+        /* *{
             border: solid 1px red;
-        }
+        } */
     </style>
 </head>
 <body>
@@ -28,7 +28,7 @@
                 <input type="text" id="InputPages">
             <label for="InputRead">Read: </label>
             <input type="text" id="InputRead">
-            <button type="button" onclick="libraryAddBooks()">Submit</button>
+            <button type="button" onclick="addBookToLibrary()">NEW BOOK</button>
         </form>
         <div id="libraryShelf">
             
@@ -41,13 +41,16 @@
         pageContainer.style.display = 'flex';
         pageContainer.style.flexWrap = 'wrap';
         pageContainer.style.width = '900px';
-        pageContainer.style.width = '900px';
         pageContainer.style.margin = 'auto';
         pageContainer.style.justifyContent = 'space-around';
     
 
 
     const libraryBooks = document.getElementById('libraryShelf');
+        libraryBooks.style.backgroundColor = '#ffe';
+        libraryBooks.style.paddingTop = '20px';
+        libraryBooks.style.paddingBottom = '40px';
+        
         libraryBooks.style.display = 'flex';
         libraryBooks.style.flexWrap = 'wrap';
         libraryBooks.style.justifyContent = 'start';
@@ -67,18 +70,20 @@
         formStyle.style.flexDirection = 'column';
         formStyle.style.width = '300px';
         formStyle.style.flexBasis = '25%';
+        formStyle.style.fontSize = '20px';
 
-
-   
     
 
     const inputBox = document.getElementsByTagName('input');
         for (let i = 0; i < inputBox.length; i++){
             const input = inputBox[i];
             input.style.height = '30px';
-            input.textContent = '';
-            console.log(input);
-        }
+            input.style.margin = '5px 0px 20px'
+            // input.textContent = '';
+        };
+
+    
+    const myLibrary = [];    
         
 
     function Books(title, author, pages, read) {
@@ -87,21 +92,17 @@
         this.pages = pages
         this.read = read
         this.info = function() {
-                        this.cardInfo = `Book title: ${this.title} \nAuthor: ${this.author} \n Pages: ${this.pages} Read: ${read}`
-                        this.cardSummary = `The ${this.title} by ${this.author}, ${this.pages} pages, read book: ${this.read}`;
+                        this.cardInfo = `${this.title}, by ${this.author}`
+                        this.cardSummary = `The ${this.title} by ${this.author} is ${this.pages} pages, read book: ${this.read}`;
                     
                         return `${this.cardInfo} \n ${this.cardSummary}`;
                     }        
     };
     
     
-    // const book1 = new Books('G.O.T', 'Ben Reeds', 200, 'Yes');
-    // const book2 = new Books('Harry Potter Mystery', 'Paul robstein', 500, 'Yes');
-    // const book3 = new Books('G.Book of Eli', 'Desi Brooks', 1000, 'not yet');
-    const myLibrary = [];
 
 
-    function libraryAddBooks(title,author,pages,read) {
+    function addBookToLibrary(title,author,pages,read) {
         const userInputTitle = document.getElementById('InputTitle');
             let inputValue = userInputTitle.value;
         const userInputAuthor = document.getElementById('InputAuthor').value;
@@ -120,14 +121,29 @@
                 
 
                     cardDiv.setAttribute('class', 'cardDiv');
-                    cardDiv.style.width = '200px';                                      
+                    cardDiv.style.maxWidth = '175px';                                      
+                    cardDiv.style.padding = '10px';                                      
                
                     subtext.style.fontSize = '16px';
                 
                     button.textContent = 'Delete';
                     button.addEventListener('click', function () {
+                        let deletedCardDiv = card;
+                        
+                        console.table(myLibrary)
                        if (cardDiv) {
                         cardDiv.parentNode.removeChild(cardDiv);
+
+                        const index = myLibrary.indexOf(deletedCardDiv);
+                            if (index !== -1) {
+                                myLibrary.splice(index, 1);
+                            }
+
+                        // console.log(indexOf(card));
+                        
+                        // myLibrary = myLibrary.slice(0, myLibrary.indexOf(deletedCardDiv)).concat(myLibrary.slice(myLibrary.indexOf(deletedCardDiv) + 1));
+                        
+                        console.table(myLibrary);
                        }
                     })
 
@@ -137,8 +153,6 @@
                     cardDiv.append(subtext);
                     subtext.append(card.cardSummary);                   
                     cardDiv.append(button);
-
-                    console.log(card.cardSummary);
                     
             }        
 
