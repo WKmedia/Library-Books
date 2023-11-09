@@ -19,7 +19,7 @@
                 <input type="text" id="InputPages">
             <label for="InputRead">Read: </label>
             <input type="text" id="InputRead">
-            <button id="addBookButton" type="button" onclick="addBookToLibrary()">NEW BOOK</button>
+            <button id="addBookButton" type="button" onclick="">NEW BOOK</button>
         </form>
         <div id="libraryShelf">
             
@@ -71,52 +71,125 @@
             input.style.margin = '5px 0px 20px'
             
         };
+    const newBookButton = document.getElementById('addBookButton');
+            newBookButton.style.height = '40px';
+            newBookButton.addEventListener('click', function () {
+                const libraryInstance = new Library();
+                libraryInstance.addBookToLibrary();
+                let userInputTitle = document.getElementById('InputTitle');           
+                let userInputAuthor = document.getElementById('InputAuthor');            
+                let userInputPages = document.getElementById('InputPages');            
+                let userInputRead = document.getElementById('InputRead');
+              
+                userInputTitle.value = '';
+                userInputAuthor.value = '';
+                userInputPages.value = '';
+                userInputRead.value = '';
+            })
 
 
-
-    
+           
     const myLibrary = [];    
+    
+
+    class Books {
         
-
-    function Books(title, author, pages, read) {
-        this.title = title,
-        this.author = author,
-        this.pages = pages,
-        this.read = read,
-        this.toggleReadStatus = function() {
-                       const userInputRead = document.getElementById('InputRead').value;
+        constructor(title,author,pages,read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        }
+        toggleReadStatus() {
+            // const userInputRead = document.getElementById('InputRead').value;
                        this.read = !this.read;
-                       if(this.read) {this.read = 'Yes';}
-                       else if (!this.read) {userInputRead.value = 'No'; }
-                       };
+                    //    if(this.read) {this.read = 'Yes';}
+                    //    else if (!this.read) {userInputRead.value = 'No'; }
+                       }
+         
 
-
-        this.info = function() {
+        info()  {
                 this.cardInfo = `${this.title}, by ${this.author}`
                 this.cardSummary = `The ${this.title} by ${this.author} 
                 is ${this.pages} pages, read book: ${this.read}`;
             
                 return `${this.cardInfo} \n ${this.cardSummary}`;
-                    }        
-    };
+                    } 
+                    
+                    
+
+    }
+
+    // function Books(title, author, pages, read) {
+    //     this.title = title,
+    //     this.author = author,
+    //     this.pages = pages,
+    //     this.read = read,
+    //     this.toggleReadStatus = function() {
+    //                    const userInputRead = document.getElementById('InputRead').value;
+    //                    this.read = !this.read;
+    //                    if(this.read) {this.read = 'Yes';}
+    //                    else if (!this.read) {userInputRead.value = 'No'; }
+    //                    };
+
+
+    //     this.info = function() {
+    //             this.cardInfo = `${this.title}, by ${this.author}`
+    //             this.cardSummary = `The ${this.title} by ${this.author} 
+    //             is ${this.pages} pages, read book: ${this.read}`;
+            
+    //             return `${this.cardInfo} \n ${this.cardSummary}`;
+    //                 }        
+    // };
     
     
 
 
-    function addBookToLibrary(title,author,pages,read) {
-        const userInputTitle = document.getElementById('InputTitle').value;           
-        const userInputAuthor = document.getElementById('InputAuthor').value;            
-        const userInputPages = document.getElementById('InputPages').value;            
-        const userInputRead = document.getElementById('InputRead').value;
+    class Library {
+    constructor() {
+        this.myLibrary = [];
+    } 
+    addBookToLibrary(title,author,pages,read) {
+        let userInputTitle = document.getElementById('InputTitle').value;           
+        let userInputAuthor = document.getElementById('InputAuthor').value;            
+        let userInputPages = document.getElementById('InputPages').value;            
+        let userInputRead = document.getElementById('InputRead').value;
+        
+            
         const cardDiv = document.createElement('div');
                 cardDiv.setAttribute('class', 'cardDiv');
                 cardDiv.style.maxWidth = '155px';                                      
                 cardDiv.style.padding = '10px';  
         const subtext = document.createElement('div');
                 subtext.style.fontSize = '12px';
-        const button = document.createElement('button');   
-                button.textContent = 'Delete';
-                button.addEventListener('click', function () {
+        const deleteButton = document.createElement('button');   
+                deleteButton.textContent = 'Delete';
+               
+        
+        
+
+            if (
+                userInputAuthor === '' || 
+                userInputPages === '' || 
+                userInputTitle === '' || 
+                userInputRead === '') {
+                  alert('Please enter book info.');
+            } 
+            else {
+                const addBook = new Books(userInputTitle, userInputAuthor, userInputPages, userInputRead);
+                myLibrary.push(addBook);
+                const card = addBook;
+                card.info();                    
+                console.log(card.info());
+                libraryBooks.append(cardDiv);
+                
+                const toggleButton = document.createElement('button');
+                toggleButton.textContent = 'Read';
+                toggleButton.addEventListener('click', function () {
+                    card.toggleReadStatus();
+                });
+
+                deleteButton.addEventListener('click', function () {
                     let deletedCardDiv = card;
                    
                     if (cardDiv) {
@@ -129,31 +202,23 @@
                     }
                         
                 });
-        
-        const toggleButton = document.createElement('button');
-                toggleButton.textContent = 'Read';
-                toggleButton.addEventListener('click', function () {
-                card.toggleReadStatus();
-                })
 
-            if (
-                userInputAuthor === '' || 
-                userInputPages === '' || 
-                userInputTitle === '' || 
-                userInputRead === '') {
-                  alert('Please enter book info.');
-            } 
-            else {
-                this.book = new Books(userInputTitle, userInputAuthor, userInputPages, userInputRead);
-                myLibrary.push(book);
-                const card = this.book;
-                card.info();                    
-                    
-            }    
+                cardDiv.append(card.cardInfo);
+                cardDiv.append(subtext);
+                subtext.append(card.cardSummary);                   
+                cardDiv.append(deleteButton);
+                cardDiv.append(toggleButton); 
+    
+                
+             
+            }   
+              
 
             
-    }    
+        }    
+    }
 
+    
 </script>     
    
 </body>
