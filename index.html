@@ -72,102 +72,84 @@
             
         };
 
+
+
     
     const myLibrary = [];    
         
 
     function Books(title, author, pages, read) {
-        this.title = title
-        this.author = author
-        this.pages = pages
-        this.read = read
+        this.title = title,
+        this.author = author,
+        this.pages = pages,
+        this.read = read,
         this.toggleReadStatus = function() {
-                                this.read = !this.read; 
-                                // Toggle the read status (from true to false or vice versa)
-                                 };
+                       const userInputRead = document.getElementById('InputRead').value;
+                       this.read = !this.read;
+                       if(this.read) {this.read = 'Yes';}
+                       else if (!this.read) {userInputRead.value = 'No'; }
+                       };
+
+
         this.info = function() {
-                    this.cardInfo = `${this.title}, by ${this.author}`
-                    this.cardSummary = `The ${this.title} by ${this.author} is ${this.pages} pages, read book: ${this.read}`;
-                
-                    return `${this.cardInfo} \n ${this.cardSummary}`;
-                     }        
+                this.cardInfo = `${this.title}, by ${this.author}`
+                this.cardSummary = `The ${this.title} by ${this.author} 
+                is ${this.pages} pages, read book: ${this.read}`;
+            
+                return `${this.cardInfo} \n ${this.cardSummary}`;
+                    }        
     };
     
     
 
 
     function addBookToLibrary(title,author,pages,read) {
-        const userInputTitle = document.getElementById('InputTitle');
-            let inputValue = userInputTitle.value;
-        const userInputAuthor = document.getElementById('InputAuthor');
-            let inputAuthor = userInputAuthor.value;
-        const userInputPages = document.getElementById('InputPages');
-            let inputPages = userInputPages.value;
-        const userInputRead = document.getElementById('InputRead');
-            let inputRead = userInputRead.value;
-            if (userInputAuthor === '' || userInputPages === '' || userInputTitle === '' || userInputRead === '') {
-                alert('Please enter book info.');
-            } else {
-              this.book = new Books(inputValue, inputAuthor, inputPages, inputRead);
+        const userInputTitle = document.getElementById('InputTitle').value;           
+        const userInputAuthor = document.getElementById('InputAuthor').value;            
+        const userInputPages = document.getElementById('InputPages').value;            
+        const userInputRead = document.getElementById('InputRead').value;
+        const cardDiv = document.createElement('div');
+                cardDiv.setAttribute('class', 'cardDiv');
+                cardDiv.style.maxWidth = '155px';                                      
+                cardDiv.style.padding = '10px';  
+        const subtext = document.createElement('div');
+                subtext.style.fontSize = '12px';
+        const button = document.createElement('button');   
+                button.textContent = 'Delete';
+                button.addEventListener('click', function () {
+                    let deletedCardDiv = card;
+                   
+                    if (cardDiv) {
+                    cardDiv.parentNode.removeChild(cardDiv);
+
+                    const index = myLibrary.indexOf(deletedCardDiv);
+                        if (index !== -1) {
+                            myLibrary.splice(index, 1);
+                        }
+                    }
+                        
+                });
+        
+        const toggleButton = document.createElement('button');
+                toggleButton.textContent = 'Read';
+                toggleButton.addEventListener('click', function () {
+                card.toggleReadStatus();
+                })
+
+            if (
+                userInputAuthor === '' || 
+                userInputPages === '' || 
+                userInputTitle === '' || 
+                userInputRead === '') {
+                  alert('Please enter book info.');
+            } 
+            else {
+                this.book = new Books(userInputTitle, userInputAuthor, userInputPages, userInputRead);
                 myLibrary.push(book);
                 const card = this.book;
+                card.info();                    
                     
-
-                    userInputTitle.value = '';
-                    userInputAuthor.value = '';
-                    userInputPages.value = '';
-                    userInputRead.value = '';
-
-                card.info();
-                let cardDiv = document.createElement('div');
-                const subtext = document.createElement('div');
-                const button = document.createElement('button');
-                const toggleButton = document.createElement('button');
-
-                    toggleButton.addEventListener('click', function () {
-                        console.log("Before toggling read status:");
-                        console.log(card.info()); // Displays book information
-                        card.toggleReadStatus();
-                        
-                        console.log("After toggling read status:");
-                        console.log(card.info()); // Displays updated book information
-                    })
-
-                    cardDiv.setAttribute('class', 'cardDiv');
-                    cardDiv.style.maxWidth = '175px';                                      
-                    cardDiv.style.padding = '10px';                                      
-               
-                    subtext.style.fontSize = '16px';
-                
-                    button.textContent = 'Delete';
-                    button.addEventListener('click', function () {
-                        let deletedCardDiv = card;
-                        
-                        console.table(myLibrary)
-                       if (cardDiv) {
-                        cardDiv.parentNode.removeChild(cardDiv);
-
-                        const index = myLibrary.indexOf(deletedCardDiv);
-                            if (index !== -1) {
-                                myLibrary.splice(index, 1);
-                            }
-
-                        console.table(myLibrary);
-                       }
-                       
-                    });
-                    toggleButton.textContent = 'Read';
-
-
-
-                    libraryBooks.append(cardDiv);
-                    cardDiv.append(card.cardInfo);
-                    cardDiv.append(subtext);
-                    subtext.append(card.cardSummary);                   
-                    cardDiv.append(button);
-                    cardDiv.append(toggleButton);
-                    
-            }        
+            }    
 
             
     }    
